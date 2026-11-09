@@ -8,7 +8,8 @@ Modes
 Providers
 - TW stocks : TWSE MIS real-time API (tse_/otc_ auto-resolved), Yahoo fallback
 - US stocks : Finnhub (if FINNHUB_API_KEY set) -> Yahoo -> Stooq (delayed, price only)
-- indices / futures / crypto (^TWII, GC=F, BTC-USD ...): Yahoo only
+- crypto (BTC-USD, ETH-USD ...): Coinbase -> Yahoo
+- indices / futures (^TWII, ^VIX, GC=F ...): Yahoo only (often 429 from GitHub runners)
 """
 import http.cookiejar
 import json
@@ -144,6 +145,22 @@ def stooq(sym):
                 delayed=True, stooq_datetime=f"{f[1]} {f[2]}")
 
 
+def coinbase(sym):
+    base = "https://api.exchange.coinbase.com/products/" + urllib.parse.quote(sym)
+    d = json.loads(http_get(base + "/ticker"))
+    if not d.get("price"):
+        return None
+    ts = datetime.fromisoformat(d["time"].replace("Z", "+00:00")).timestamp()
+    extra = {}
+    try:
+        st = json.loads(http_get(base + "/stats"))
+        extra["open_24h"] = float(st["open"])
+    except Exception:  # noqa: BLE001
+        pass
+    return make(float(d["price"]), None, ts, session="24x7",
+                currency="USD", exchange="Coinbase", source="coinbase", **extra)
+
+
 def try_provider(name, fn, sym):
     if FAILS.get(name, 0) >= BREAK_AFTER:
         return None
@@ -175,6 +192,10 @@ def fetch_us(sym):
 
 
 def fetch_other(sym):
+    if sym.upper().endswith("-USD"):
+        q = try_provider("coinbase", coinbase, sym.upper())
+        if q:
+            return q
     return try_provider("yahoo", yahoo, sym)
 
 
