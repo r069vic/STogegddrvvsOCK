@@ -9,7 +9,9 @@ Providers
 - TW stocks : TWSE MIS real-time API (tse_/otc_ auto-resolved), Yahoo fallback
 - US stocks : Finnhub (if FINNHUB_API_KEY set) -> Yahoo -> Stooq (delayed, price only)
 - crypto (BTC-USD, ETH-USD ...): Coinbase -> Yahoo
-- indices / futures (^TWII, ^VIX, GC=F ...): Yahoo only (often 429 from GitHub runners)
+- GC=F, DX-Y.NYB, CL=F, ^VIX, ^GSPC, ^SOX: answered by an ETF proxy (see PROXY),
+  stored under the ETF symbol with a "proxy_for" field
+- other indices (^TWII, ^IXIC, ^TNX ...): Yahoo only (often 429 from GitHub runners)
 """
 import http.cookiejar
 import json
@@ -27,6 +29,18 @@ UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 TPE = timezone(timedelta(hours=8))
 FINNHUB_KEY = os.environ.get("FINNHUB_API_KEY", "").strip()
+
+# Index/futures symbols that cannot be fetched reliably are answered with an ETF proxy.
+# The result is stored under the ETF's own symbol with an explicit "proxy_for" field,
+# so a proxy price is never mistaken for the real index/futures value.
+PROXY = {
+    "GC=F": ("GLD", "Gold futures (COMEX GC) - GLD is a gold ETF, not the futures price"),
+    "DX-Y.NYB": ("UUP", "US Dollar Index (DXY) - UUP is a dollar-index futures ETF, not the index value"),
+    "CL=F": ("USO", "WTI crude futures - USO is an oil futures ETF, not the front-month price"),
+    "^VIX": ("VIXY", "VIX index - VIXY holds short-term VIX futures; its moves differ a lot from the VIX index"),
+    "^GSPC": ("SPY", "S&P 500 index - SPY is an ETF; price is ~1/10 of the index level"),
+    "^SOX": ("SOXX", "Semiconductor index - SOXX is an ETF, not the index value"),
+}
 
 # consecutive-failure circuit breaker per provider (skip a provider that is blocked)
 FAILS = {"yahoo": 0, "finnhub": 0}
@@ -264,14 +278,33 @@ def main():
         else:
             errors.append(c)
 
-    for market, fn in (("US", fetch_us), ("OTHER", fetch_other)):
-        for s in groups[market]:
-            q = fn(s)
-            if q:
-                quotes[s] = {"market": market, **q}
+    for s in groups["US"]:
+        q = fetch_us(s)
+        if q:
+            quotes[s] = {"market": "US", **q}
+        else:
+            errors.append(s)
+        time.sleep(0.3)
+
+    for s in groups["OTHER"]:
+        if s in PROXY:
+            etf, desc = PROXY[s]
+            if etf not in quotes:
+                q = fetch_us(etf)
+                if q:
+                    quotes[etf] = {"market": "US", **q}
+                time.sleep(0.3)
+            if etf in quotes:
+                quotes[etf].setdefault("proxy_for", []).append({"symbol": s, "note": desc})
             else:
                 errors.append(s)
-            time.sleep(0.3)
+            continue
+        q = fetch_other(s)
+        if q:
+            quotes[s] = {"market": "OTHER", **q}
+        else:
+            errors.append(s)
+        time.sleep(0.3)
 
     now = datetime.now(timezone.utc)
     payload = {

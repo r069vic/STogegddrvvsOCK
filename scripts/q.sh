@@ -34,4 +34,6 @@ for k, v in d["quotes"].items():
     t = v.get("time") or v.get("stooq_datetime")
     row = [k, v["price"], "chg", v.get("change_pct"), v["source"], v.get("session"), t]
     print(*row, sep="  ")
+    for x in v.get("proxy_for", []):
+        print("   ^ ETF PROXY for", x["symbol"], "-", x["note"])
 '
