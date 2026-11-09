@@ -86,7 +86,7 @@ def classify(s):
     """TW / US / OTHER from the symbol shape."""
     if s.isdigit() or (len(s) > 1 and s[:-1].isdigit() and s[-1].isalpha()):
         return "TW"
-    if s.startswith("^") or "=" in s or s.upper().endswith("-USD"):
+    if s in PROXY or s.startswith("^") or "=" in s or s.upper().endswith("-USD"):
         return "OTHER"
     return "US"
 
