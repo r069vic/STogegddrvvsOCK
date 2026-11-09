@@ -1,14 +1,21 @@
 #!/usr/bin/env python3
 """Fetch US + Taiwan intraday quotes and write out/quotes.json (stdlib only).
 
-- TW stocks: TWSE MIS real-time API (tse_/otc_ auto-resolved), Yahoo fallback.
-- US stocks / indices / futures / crypto: Yahoo Finance chart API (1m bars, incl. pre/post).
+Modes
+- scheduled / manual run: every symbol in tickers.json
+- on-demand run (env EXTRA_SYMBOLS="SOXX,2330,^VIX"): only those symbols
+
+Providers
+- TW stocks : TWSE MIS real-time API (tse_/otc_ auto-resolved), Yahoo fallback
+- US stocks : Finnhub (if FINNHUB_API_KEY set) -> Yahoo -> Stooq (delayed, price only)
+- indices / futures / crypto (^TWII, GC=F, BTC-USD ...): Yahoo only
 """
 import http.cookiejar
 import json
 import os
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -18,6 +25,11 @@ OUT_DIR = os.path.join(ROOT, "out")
 UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 TPE = timezone(timedelta(hours=8))
+FINNHUB_KEY = os.environ.get("FINNHUB_API_KEY", "").strip()
+
+# consecutive-failure circuit breaker per provider (skip a provider that is blocked)
+FAILS = {"yahoo": 0, "finnhub": 0}
+BREAK_AFTER = 3
 
 
 def http_get(url, opener=None, timeout=15, retries=2):
@@ -29,9 +41,13 @@ def http_get(url, opener=None, timeout=15, retries=2):
             op = opener.open if opener else urllib.request.urlopen
             with op(req, timeout=timeout) as r:
                 return r.read().decode("utf-8")
+        except urllib.error.HTTPError as e:
+            if e.code in (401, 403, 404, 429):  # retrying will not help
+                raise
+            last = e
         except Exception as e:  # noqa: BLE001
             last = e
-            time.sleep(1 + i)
+        time.sleep(1 + i)
     raise last
 
 
@@ -51,10 +67,28 @@ def make(price, prev, ts, **extra):
     return q
 
 
+def classify(s):
+    """TW / US / OTHER from the symbol shape."""
+    if s.isdigit() or (len(s) > 1 and s[:-1].isdigit() and s[-1].isalpha()):
+        return "TW"
+    if s.startswith("^") or "=" in s or s.upper().endswith("-USD"):
+        return "OTHER"
+    return "US"
+
+
+# ---------------------------------------------------------------- providers
 def yahoo(sym):
-    url = ("https://query1.finance.yahoo.com/v8/finance/chart/"
-           f"{urllib.parse.quote(sym)}?interval=1m&range=1d&includePrePost=true")
-    d = json.loads(http_get(url))
+    q = urllib.parse.quote(sym)
+    path = f"/v8/finance/chart/{q}?interval=1m&range=1d&includePrePost=true"
+    d, err = None, None
+    for host in ("query2.finance.yahoo.com", "query1.finance.yahoo.com"):
+        try:
+            d = json.loads(http_get("https://" + host + path))
+            break
+        except Exception as e:  # noqa: BLE001
+            err = e
+    if d is None:
+        raise err
     res = (d.get("chart") or {}).get("result")
     if not res:
         return None
@@ -85,6 +119,63 @@ def yahoo(sym):
         name=m.get("shortName") or m.get("longName"),
         source="yahoo",
     )
+
+
+def finnhub(sym):
+    url = ("https://finnhub.io/api/v1/quote?symbol="
+           f"{urllib.parse.quote(sym)}&token={FINNHUB_KEY}")
+    d = json.loads(http_get(url))
+    if not d.get("c"):
+        return None
+    return make(d["c"], d.get("pc"), d.get("t"),
+                session=None, currency="USD", source="finnhub")
+
+
+def stooq(sym):
+    url = f"https://stooq.com/q/l/?s={sym.lower()}.us&f=sd2t2ohlcv&h&e=csv"
+    rows = http_get(url).strip().splitlines()
+    if len(rows) < 2:
+        return None
+    f = rows[1].split(",")
+    if len(f) < 7 or f[6] in ("", "N/D"):
+        return None
+    return make(float(f[6]), None, None,
+                session=None, currency="USD", source="stooq",
+                delayed=True, stooq_datetime=f"{f[1]} {f[2]}")
+
+
+def try_provider(name, fn, sym):
+    if FAILS.get(name, 0) >= BREAK_AFTER:
+        return None
+    try:
+        q = fn(sym)
+    except Exception as e:  # noqa: BLE001
+        print(f"[{name}] {sym}: {e}", file=sys.stderr)
+        if name in FAILS:
+            FAILS[name] += 1
+        return None
+    if q and name in FAILS:
+        FAILS[name] = 0
+    return q
+
+
+def fetch_us(sym):
+    chain = []
+    if FINNHUB_KEY:
+        chain.append(("finnhub", finnhub))
+    chain.append(("yahoo", yahoo))
+    chain.append(("stooq", stooq))
+    for name, fn in chain:
+        q = try_provider(name, fn, sym)
+        if q:
+            return q
+        if name == "finnhub":
+            time.sleep(1.1)  # free tier: 60 req/min
+    return None
+
+
+def fetch_other(sym):
+    return try_provider("yahoo", yahoo, sym)
 
 
 def twse(codes):
@@ -121,48 +212,51 @@ def twse(codes):
     return out
 
 
+def fetch_tw_fallback(code):
+    for suffix in (".TW", ".TWO"):
+        q = try_provider("yahoo", yahoo, code + suffix)
+        if q:
+            return q
+    return None
+
+
+# --------------------------------------------------------------------- main
 def main():
-    with open(os.path.join(ROOT, "tickers.json"), encoding="utf-8") as f:
-        cfg = json.load(f)
+    extra = [s.strip() for s in os.environ.get("EXTRA_SYMBOLS", "").split(",") if s.strip()]
+    if extra:
+        groups = {"TW": [], "US": [], "OTHER": []}
+        for s in extra:
+            groups[classify(s)].append(s)
+    else:
+        with open(os.path.join(ROOT, "tickers.json"), encoding="utf-8") as f:
+            cfg = json.load(f)
+        groups = {"TW": cfg.get("tw", []), "US": cfg.get("us", []),
+                  "OTHER": cfg.get("other", [])}
 
     quotes, errors = {}, []
 
-    tw_codes = cfg.get("tw", [])
-    tw = twse(tw_codes) if tw_codes else {}
-    for c in tw_codes:
-        if c in tw:
-            quotes[c] = {"market": "TW", **tw[c]}
-            continue
-        q = None
-        for suffix in (".TW", ".TWO"):
-            try:
-                q = yahoo(c + suffix)
-            except Exception as e:  # noqa: BLE001
-                print(f"[yahoo] {c}{suffix}: {e}", file=sys.stderr)
-            if q:
-                break
+    tw = twse(groups["TW"]) if groups["TW"] else {}
+    for c in groups["TW"]:
+        q = tw.get(c) or fetch_tw_fallback(c)
         if q:
             quotes[c] = {"market": "TW", **q}
         else:
             errors.append(c)
 
-    for market, key in (("US", "us"), ("OTHER", "other")):
-        for s in cfg.get(key, []):
-            try:
-                q = yahoo(s)
-            except Exception as e:  # noqa: BLE001
-                print(f"[yahoo] {s}: {e}", file=sys.stderr)
-                q = None
+    for market, fn in (("US", fetch_us), ("OTHER", fetch_other)):
+        for s in groups[market]:
+            q = fn(s)
             if q:
                 quotes[s] = {"market": market, **q}
             else:
                 errors.append(s)
-            time.sleep(0.2)
+            time.sleep(0.3)
 
     now = datetime.now(timezone.utc)
     payload = {
         "generated_at": now.isoformat(timespec="seconds"),
         "generated_at_taipei": now.astimezone(TPE).isoformat(timespec="seconds"),
+        "mode": "on-demand" if extra else "scheduled",
         "note": "Compare each quote's 'time' with the current time to judge staleness.",
         "errors": errors,
         "quotes": quotes,
