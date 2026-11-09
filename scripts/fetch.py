@@ -139,7 +139,10 @@ def yahoo(sym):
 def finnhub(sym):
     url = ("https://finnhub.io/api/v1/quote?symbol="
            f"{urllib.parse.quote(sym)}&token={FINNHUB_KEY}")
-    d = json.loads(http_get(url))
+    try:
+        d = json.loads(http_get(url))
+    finally:
+        time.sleep(1.05)  # free tier: 60 req/min
     if not d.get("c"):
         return None
     return make(d["c"], d.get("pc"), d.get("t"),
@@ -200,8 +203,6 @@ def fetch_us(sym):
         q = try_provider(name, fn, sym)
         if q:
             return q
-        if name == "finnhub":
-            time.sleep(1.1)  # free tier: 60 req/min
     return None
 
 
