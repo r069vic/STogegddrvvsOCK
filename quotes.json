@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-11-09T17:09:43+00:00",
+  "generated_at_taipei": "2026-11-10T01:09:43+08:00",
+  "mode": "on-demand",
+  "note": "Compare each quote's 'time' with the current time to judge staleness.",
+  "errors": [],
+  "quotes": {
+    "SOXX": {
+      "market": "US",
+      "price": 146.15,
+      "prev_close": 136.53,
+      "change": 9.62,
+      "change_pct": 7.05,
+      "time": "2026-11-09T17:09:13+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "GDXU": {
+      "market": "US",
+      "price": 100.7,
+      "prev_close": 91.33,
+      "change": 9.37,
+      "change_pct": 10.26,
+      "time": "2026-11-09T17:09:04+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "QQQ": {
+      "market": "US",
+      "price": 677.42,
+      "prev_close": 656.1,
+      "change": 21.32,
+      "change_pct": 3.25,
+      "time": "2026-11-09T17:09:13+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "TTWO": {
+      "market": "US",
+      "price": 212.33,
+      "prev_close": 214.87,
+      "change": -2.54,
+      "change_pct": -1.18,
+      "time": "2026-11-09T17:09:10+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "KORU": {
+      "market": "US",
+      "price": 7.62,
+      "prev_close": 6.91,
+      "change": 0.71,
+      "change_pct": 10.27,
+      "time": "2026-11-09T17:09:33+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    }
+  }
+}
