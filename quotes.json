@@ -1,0 +1,659 @@
+{
+  "generated_at": "2026-11-28T00:59:09+00:00",
+  "generated_at_taipei": "2026-11-28T08:59:09+08:00",
+  "mode": "scheduled",
+  "note": "Compare each quote's 'time' with the current time to judge staleness.",
+  "errors": [],
+  "quotes": {
+    "2330": {
+      "market": "TW",
+      "price": 2180.0,
+      "prev_close": 2145.0,
+      "change": 35.0,
+      "change_pct": 1.63,
+      "time": "2026-11-27T06:30:00+00:00",
+      "session": "regular",
+      "currency": "TWD",
+      "exchange": "TWSE",
+      "name": "台積電",
+      "source": "twse-mis"
+    },
+    "2308": {
+      "market": "TW",
+      "price": 1125.0,
+      "prev_close": 1120.0,
+      "change": 5.0,
+      "change_pct": 0.45,
+      "time": "2026-11-27T06:30:00+00:00",
+      "session": "regular",
+      "currency": "TWD",
+      "exchange": "TWSE",
+      "name": "台達電",
+      "source": "twse-mis"
+    },
+    "2317": {
+      "market": "TW",
+      "price": 219.0,
+      "prev_close": 216.5,
+      "change": 2.5,
+      "change_pct": 1.15,
+      "time": "2026-11-27T06:30:00+00:00",
+      "session": "regular",
+      "currency": "TWD",
+      "exchange": "TWSE",
+      "name": "鴻海",
+      "source": "twse-mis"
+    },
+    "2059": {
+      "market": "TW",
+      "price": 7025.0,
+      "prev_close": 7155.0,
+      "change": -130.0,
+      "change_pct": -1.82,
+      "time": "2026-11-27T06:30:00+00:00",
+      "session": "regular",
+      "currency": "TWD",
+      "exchange": "TWSE",
+      "name": "川湖",
+      "source": "twse-mis"
+    },
+    "2454": {
+      "market": "TW",
+      "price": 3680.0,
+      "prev_close": 3705.0,
+      "change": -25.0,
+      "change_pct": -0.67,
+      "time": "2026-11-27T06:30:00+00:00",
+      "session": "regular",
+      "currency": "TWD",
+      "exchange": "TWSE",
+      "name": "聯發科",
+      "source": "twse-mis"
+    },
+    "3081": {
+      "market": "TW",
+      "price": 1395.0,
+      "prev_close": 1545.0,
+      "change": -150.0,
+      "change_pct": -9.71,
+      "time": "2026-11-27T06:30:00+00:00",
+      "session": "regular",
+      "currency": "TWD",
+      "exchange": "TPEx",
+      "name": "聯亞",
+      "source": "twse-mis"
+    },
+    "4979": {
+      "market": "TW",
+      "price": 269.5,
+      "prev_close": 279.0,
+      "change": -9.5,
+      "change_pct": -3.41,
+      "time": "2026-11-27T06:30:00+00:00",
+      "session": "regular",
+      "currency": "TWD",
+      "exchange": "TPEx",
+      "name": "華星光",
+      "source": "twse-mis"
+    },
+    "5289": {
+      "market": "TW",
+      "price": 784.0,
+      "prev_close": 795.0,
+      "change": -11.0,
+      "change_pct": -1.38,
+      "time": "2026-11-27T06:30:00+00:00",
+      "session": "regular",
+      "currency": "TWD",
+      "exchange": "TPEx",
+      "name": "宜鼎",
+      "source": "twse-mis"
+    },
+    "QQQ": {
+      "market": "US",
+      "price": 650.99,
+      "prev_close": 633.93,
+      "change": 17.06,
+      "change_pct": 2.69,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "SOXX": {
+      "market": "US",
+      "price": 134.07,
+      "prev_close": 127.98,
+      "change": 6.09,
+      "change_pct": 4.76,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub",
+      "proxy_for": [
+        {
+          "symbol": "^SOX",
+          "note": "Semiconductor index - SOXX is an ETF, not the index value"
+        }
+      ]
+    },
+    "SNDK": {
+      "market": "US",
+      "price": 85.36,
+      "prev_close": 73.61,
+      "change": 11.75,
+      "change_pct": 15.96,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "MU": {
+      "market": "US",
+      "price": 646.95,
+      "prev_close": 601.25,
+      "change": 45.7,
+      "change_pct": 7.6,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "COHR": {
+      "market": "US",
+      "price": 223.79,
+      "prev_close": 196.19,
+      "change": 27.6,
+      "change_pct": 14.07,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "LITE": {
+      "market": "US",
+      "price": 514.63,
+      "prev_close": 476.58,
+      "change": 38.05,
+      "change_pct": 7.98,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "ALNT": {
+      "market": "US",
+      "price": 76.59,
+      "prev_close": 74.26,
+      "change": 2.33,
+      "change_pct": 3.14,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "VRT": {
+      "market": "US",
+      "price": 178.71,
+      "prev_close": 173.37,
+      "change": 5.34,
+      "change_pct": 3.08,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "ETN": {
+      "market": "US",
+      "price": 325.92,
+      "prev_close": 317.81,
+      "change": 8.11,
+      "change_pct": 2.55,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "GEV": {
+      "market": "US",
+      "price": 735.31,
+      "prev_close": 715,
+      "change": 20.31,
+      "change_pct": 2.84,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "BE": {
+      "market": "US",
+      "price": 163.02,
+      "prev_close": 152.89,
+      "change": 10.13,
+      "change_pct": 6.63,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "ARM": {
+      "market": "US",
+      "price": 171.55,
+      "prev_close": 161.51,
+      "change": 10.04,
+      "change_pct": 6.22,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "TTWO": {
+      "market": "US",
+      "price": 230.22,
+      "prev_close": 227.34,
+      "change": 2.88,
+      "change_pct": 1.27,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "GDXU": {
+      "market": "US",
+      "price": 59.82,
+      "prev_close": 49.32,
+      "change": 10.5,
+      "change_pct": 21.29,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "LITX": {
+      "market": "US",
+      "price": 6.88,
+      "prev_close": 5.94,
+      "change": 0.94,
+      "change_pct": 15.82,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "MUU": {
+      "market": "US",
+      "price": 10.82,
+      "prev_close": 9.43,
+      "change": 1.39,
+      "change_pct": 14.74,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "SPY": {
+      "market": "US",
+      "price": 728.32,
+      "prev_close": 716.7,
+      "change": 11.62,
+      "change_pct": 1.62,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub",
+      "proxy_for": [
+        {
+          "symbol": "^GSPC",
+          "note": "S&P 500 index - SPY is an ETF; price is ~1/10 of the index level"
+        }
+      ]
+    },
+    "DIA": {
+      "market": "US",
+      "price": 507.6,
+      "prev_close": 501.27,
+      "change": 6.33,
+      "change_pct": 1.26,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "IWM": {
+      "market": "US",
+      "price": 273.79,
+      "prev_close": 268.87,
+      "change": 4.92,
+      "change_pct": 1.83,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "SMH": {
+      "market": "US",
+      "price": 440.06,
+      "prev_close": 422.46,
+      "change": 17.6,
+      "change_pct": 4.17,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "TLT": {
+      "market": "US",
+      "price": 81.27,
+      "prev_close": 82.24,
+      "change": -0.97,
+      "change_pct": -1.18,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "IBIT": {
+      "market": "US",
+      "price": 33.86,
+      "prev_close": 34.07,
+      "change": -0.21,
+      "change_pct": -0.62,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "ETHA": {
+      "market": "US",
+      "price": 37.76,
+      "prev_close": 38.17,
+      "change": -0.41,
+      "change_pct": -1.07,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "MSTR": {
+      "market": "US",
+      "price": 81.62,
+      "prev_close": 79.96,
+      "change": 1.66,
+      "change_pct": 2.08,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "COIN": {
+      "market": "US",
+      "price": 107.04,
+      "prev_close": 103.72,
+      "change": 3.32,
+      "change_pct": 3.2,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "TSM": {
+      "market": "US",
+      "price": 353.34,
+      "prev_close": 342.34,
+      "change": 11.0,
+      "change_pct": 3.21,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "NVDA": {
+      "market": "US",
+      "price": 150.49,
+      "prev_close": 149.3,
+      "change": 1.19,
+      "change_pct": 0.8,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "AMD": {
+      "market": "US",
+      "price": 424.54,
+      "prev_close": 406.03,
+      "change": 18.51,
+      "change_pct": 4.56,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "AVGO": {
+      "market": "US",
+      "price": 312.34,
+      "prev_close": 300.86,
+      "change": 11.48,
+      "change_pct": 3.82,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "QCOM": {
+      "market": "US",
+      "price": 179.27,
+      "prev_close": 168.66,
+      "change": 10.61,
+      "change_pct": 6.29,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "SMCI": {
+      "market": "US",
+      "price": 23.76,
+      "prev_close": 23.31,
+      "change": 0.45,
+      "change_pct": 1.93,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "DELL": {
+      "market": "US",
+      "price": 316.96,
+      "prev_close": 297.06,
+      "change": 19.9,
+      "change_pct": 6.7,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "AAPL": {
+      "market": "US",
+      "price": 358.54,
+      "prev_close": 355.58,
+      "change": 2.96,
+      "change_pct": 0.83,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "HPE": {
+      "market": "US",
+      "price": 42.76,
+      "prev_close": 40.82,
+      "change": 1.94,
+      "change_pct": 4.75,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "AAOI": {
+      "market": "US",
+      "price": 40.9,
+      "prev_close": 37.02,
+      "change": 3.88,
+      "change_pct": 10.48,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "CIEN": {
+      "market": "US",
+      "price": 256.58,
+      "prev_close": 242.79,
+      "change": 13.79,
+      "change_pct": 5.68,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "AXTI": {
+      "market": "US",
+      "price": 36.37,
+      "prev_close": 31.98,
+      "change": 4.39,
+      "change_pct": 13.73,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "MRVL": {
+      "market": "US",
+      "price": 140.54,
+      "prev_close": 130.93,
+      "change": 9.61,
+      "change_pct": 7.34,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "WDC": {
+      "market": "US",
+      "price": 292.11,
+      "prev_close": 272.45,
+      "change": 19.66,
+      "change_pct": 7.22,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "KORU": {
+      "market": "US",
+      "price": 6.01,
+      "prev_close": 5.27,
+      "change": 0.74,
+      "change_pct": 14.04,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub"
+    },
+    "VIXY": {
+      "market": "US",
+      "price": 21.47,
+      "prev_close": 23.28,
+      "change": -1.81,
+      "change_pct": -7.77,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub",
+      "proxy_for": [
+        {
+          "symbol": "^VIX",
+          "note": "VIX index - VIXY holds short-term VIX futures; its moves differ a lot from the VIX index"
+        }
+      ]
+    },
+    "GLD": {
+      "market": "US",
+      "price": 334.4,
+      "prev_close": 327.45,
+      "change": 6.95,
+      "change_pct": 2.12,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub",
+      "proxy_for": [
+        {
+          "symbol": "GC=F",
+          "note": "Gold futures (COMEX GC) - GLD is a gold ETF, not the futures price"
+        }
+      ]
+    },
+    "USO": {
+      "market": "US",
+      "price": 137.77,
+      "prev_close": 139.89,
+      "change": -2.12,
+      "change_pct": -1.52,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub",
+      "proxy_for": [
+        {
+          "symbol": "CL=F",
+          "note": "WTI crude futures - USO is an oil futures ETF, not the front-month price"
+        }
+      ]
+    },
+    "UUP": {
+      "market": "US",
+      "price": 29.72,
+      "prev_close": 29.6,
+      "change": 0.12,
+      "change_pct": 0.41,
+      "time": "2026-11-27T21:00:00+00:00",
+      "session": null,
+      "currency": "USD",
+      "source": "finnhub",
+      "proxy_for": [
+        {
+          "symbol": "DX-Y.NYB",
+          "note": "US Dollar Index (DXY) - UUP is a dollar-index futures ETF, not the index value"
+        }
+      ]
+    },
+    "BTC-USD": {
+      "market": "OTHER",
+      "price": 59836.2,
+      "prev_close": null,
+      "change": null,
+      "change_pct": null,
+      "time": "2026-11-28T00:59:07+00:00",
+      "session": "24x7",
+      "currency": "USD",
+      "exchange": "Coinbase",
+      "source": "coinbase",
+      "open_24h": 60612.42
+    },
+    "ETH-USD": {
+      "market": "OTHER",
+      "price": 1660.31,
+      "prev_close": null,
+      "change": null,
+      "change_pct": null,
+      "time": "2026-11-28T00:59:02+00:00",
+      "session": "24x7",
+      "currency": "USD",
+      "exchange": "Coinbase",
+      "source": "coinbase",
+      "open_24h": 1699.05
+    }
+  }
+}
